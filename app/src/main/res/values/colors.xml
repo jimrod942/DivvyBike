@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#F6EBBC</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="divvy_blue">#3FB5E7</color>
+    <color name="divvy_dark">#303030</color>
+    <color name="white">#ffffffff</color>
+</resources>
