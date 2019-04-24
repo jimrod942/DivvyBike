@@ -10,6 +10,8 @@ import android.widget.TableRow;
 
 import android.content.Intent;
 
+import com.example.lib.Station;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
