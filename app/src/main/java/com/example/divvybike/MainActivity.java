@@ -18,6 +18,13 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+
 /**
  * Class for the Main Activity.
  */
@@ -45,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private LocationRequest locationRequest;
 
-//    /**
-//     * Location request rate.
-//     * Probably don't need this since we will request location on create or on refresh.
-//     */
-//    private static final int LOCATION_REQUEST_RATE = 5000;
-
     /**
      * Not exactly sure what this does.
      */
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Whether we have received locations.
      */
-    private boolean recievedLocation = false;
+    private boolean receivedLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

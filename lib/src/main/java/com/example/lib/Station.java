@@ -50,7 +50,7 @@ public class Station {
 
     /**
      * Get the latitude of the station location.
-     * @return boi (hey jimmy, i know you'll love this one)
+     * @return boi (hey andy, you are the worst)
      */
     public double getLongitude() {
         return longitude;
