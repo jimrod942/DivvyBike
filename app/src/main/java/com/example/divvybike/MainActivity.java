@@ -12,7 +12,53 @@ import android.content.Intent;
 
 import com.example.lib.Station;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+
 public class MainActivity extends AppCompatActivity {
+
+    /**
+     * Fine-grained location permissions request constant.
+     */
+    private static final int REQUEST_FINE_LOCATION = 88;
+
+    /**
+     * Permission to access fine-grained location.
+     */
+    private boolean canAccessFineLocation = false;
+
+    /**
+     * Location updates.
+     */
+    private boolean locationEnabled = true;
+
+    /**
+     * Fused location provider client.
+     */
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private LocationRequest locationRequest;
+
+//    /**
+//     * Location request rate.
+//     * Probably don't need this since we will request location on create or on refresh.
+//     */
+//    private static final int LOCATION_REQUEST_RATE = 5000;
+
+    /**
+     * Not exactly sure what this does.
+     */
+    private LocationCallback locationCallback;
+
+    private double[] currentLocation = new double[2];
+
+    /**
+     * Whether we have received locations.
+     */
+    private boolean recievedLocation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
