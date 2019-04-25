@@ -12,6 +12,9 @@ import android.content.Intent;
 
 import com.example.lib.Station;
 
+/**
+ * Class for the Main Activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* connections for UI elements */
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
         for (int i = 0; i < 20; i++) {
