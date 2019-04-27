@@ -9,9 +9,14 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import com.example.divvybike.MainActivity;
+import com.example.lib.Station;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -42,8 +47,20 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        List<Station> locations = new ArrayList<>();
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(divvyJSON);
-        JsonArray divvyAPIReturn = tradeElement.getAsJsonArray();
+        JsonObject divvyAPIReturn = tradeElement.getAsJsonObject();
+        JsonArray allLocations = divvyAPIReturn.get("stationBeanList").getAsJsonArray();
+        for (int i = 0; i < allLocations.size(); i++) {
+            String name = allLocations.get(i).getAsJsonObject().get("stationName").getAsString();
+            int docks = allLocations.get(i).getAsJsonObject().get("availableDocks").getAsInt();
+            int bikes = allLocations.get(i).getAsJsonObject().get("availableBikes").getAsInt();
+            String status = allLocations.get(i).getAsJsonObject().get("statusValue").getAsString();
+            double latitude = allLocations.get(i).getAsJsonObject().get("latitude").getAsDouble();
+            double longitude = allLocations.get(i).getAsJsonObject().get("longitude").getAsDouble();
+            locations.add(new Station(name, docks, bikes, status, latitude, longitude));
+        }
+
     }
 }

@@ -9,7 +9,7 @@ public class Station {
     private double latitude;
     private double longitude;
 
-    Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
+    public Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
         stationName = setStationName;
         availableDocks = setAvailableDocks;
         availableBikes = setAvailableBikes;
