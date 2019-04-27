@@ -1,5 +1,6 @@
 package com.example.lib;
 
+
 public class Station {
     private String stationName;
     private int availableDocks;
@@ -8,6 +9,14 @@ public class Station {
     private double latitude;
     private double longitude;
 
+    Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
+        stationName = setStationName;
+        availableDocks = setAvailableDocks;
+        availableBikes = setAvailableBikes;
+        statusValue = setStatusValue;
+        latitude = setLatitude;
+        longitude = setLongitude;
+    }
     /**
      * return the station's name.
      * @return station name
