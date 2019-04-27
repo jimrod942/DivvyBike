@@ -23,7 +23,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity {
-
     /**
      * Fine-grained location permissions request constant.
      */
