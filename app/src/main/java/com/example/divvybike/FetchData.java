@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class FetchData extends AsyncTask<Void, Void, Void> {
     String divvyJSON = "";
+    List<Station> locations = new ArrayList<>();
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -47,7 +48,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        List<Station> locations = new ArrayList<>();
+
         JsonParser parser = new JsonParser();
         JsonElement tradeElement = parser.parse(divvyJSON);
         JsonObject divvyAPIReturn = tradeElement.getAsJsonObject();
