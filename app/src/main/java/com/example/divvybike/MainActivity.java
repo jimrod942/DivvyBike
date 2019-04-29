@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -67,16 +68,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Requests location permissions.
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
+        ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        fetch.setOnClickListener(new View.OnClickListener() {
+        refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fetchLocation();
             }
         });
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
         for (int i = 0; i < 20; i++) {
             TableRow row = new TableRow(this);
