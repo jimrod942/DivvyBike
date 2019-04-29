@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -27,17 +28,33 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+
+/**
+ * Class for the Main Activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     private double currentLongitude;
     private double currentLatitude;
+    /**
+     * Not exactly sure what this does.
+     */
+    private LocationCallback locationCallback;
+
+    private double[] currentLocation = new double[2];
 
     /**
      * Whether we have received locations.
      */
-    private boolean recievedLocation = false;
+    private boolean receivedLocation = false;
 
     Button fetch;
     private FusedLocationProviderClient fusedLocationClient;
@@ -47,16 +64,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-//        fetch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fetchLocation();
-//            }
-//        });
+        // Requests location permissions.
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
+        ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchLocation();
+            }
+        });
+
 
         for (int i = 0; i < 20; i++) {
             TableRow row = new TableRow(this);

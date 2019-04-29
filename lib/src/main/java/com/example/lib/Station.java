@@ -9,7 +9,7 @@ public class Station {
     private double latitude;
     private double longitude;
 
-    Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
+    public Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
         stationName = setStationName;
         availableDocks = setAvailableDocks;
         availableBikes = setAvailableBikes;
@@ -59,7 +59,7 @@ public class Station {
 
     /**
      * Get the latitude of the station location.
-     * @return boi (hey jimmy, i know you'll love this one)
+     * @return boi (hey andy, you are the worst)
      */
     public double getLongitude() {
         return longitude;
