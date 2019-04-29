@@ -6,16 +6,22 @@ public class Station {
     private int availableDocks;
     private int availableBikes;
     private String statusValue;
-    private double latitude;
-    private double longitude;
+    private double stationLatitude;
+    private double stationLongitude;
+    public double distance;
 
     public Station(String setStationName, int setAvailableDocks, int setAvailableBikes, String setStatusValue, double setLatitude, double setLongitude) {
         stationName = setStationName;
         availableDocks = setAvailableDocks;
         availableBikes = setAvailableBikes;
         statusValue = setStatusValue;
-        latitude = setLatitude;
-        longitude = setLongitude;
+        stationLatitude = setLatitude;
+        stationLongitude = setLongitude;
+    }
+    public void setDistance() {
+        double lon = stationLongitude - getLongitude();
+        double lat = stationLatitude - getLatitude();
+        distance = Math.sqrt((lon * lon) + (lat * lat));
     }
     /**
      * return the station's name.
@@ -54,7 +60,7 @@ public class Station {
      * @return double representing the latitude of the stop.
      */
     public double getLatitude() {
-        return latitude;
+        return stationLatitude;
     }
 
     /**
@@ -62,6 +68,6 @@ public class Station {
      * @return boi (hey andy, you are the worst)
      */
     public double getLongitude() {
-        return longitude;
+        return stationLongitude;
     }
 }
