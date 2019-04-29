@@ -18,10 +18,6 @@ import android.widget.TableRow;
 
 import android.content.Intent;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import com.example.lib.Station;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        fetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchLocation();
-            }
-        });
+//        fetch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fetchLocation();
+//            }
+//        });
 
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
