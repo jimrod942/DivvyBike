@@ -60,6 +60,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class MainActivity extends AppCompatActivity {
 
+
     private RequestQueue requestQueue;
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
 
-    private List<Station> stations = new ArrayList<>();
+    public List<Station> stations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +144,20 @@ public class MainActivity extends AppCompatActivity {
      * @param jsonResult a string of the resultant json.
      */
     protected void finishProcessImage(final String jsonResult) {
-        System.out.println(jsonResult);
+       // System.out.println("PROCESSING IMAGE");
+        JsonParser parser = new JsonParser();
+        JsonObject result = parser.parse(jsonResult).getAsJsonObject();
+        JsonArray stationBeanList = result.get("stationBeanList").getAsJsonArray();
+        for (int i = 0; i < stationBeanList.size(); i++) {
+            String name = stationBeanList.get(i).getAsJsonObject().get("stationName").getAsString();
+            int docks = stationBeanList.get(i).getAsJsonObject().get("availableDocks").getAsInt();
+            int bikes = stationBeanList.get(i).getAsJsonObject().get("availableBikes").getAsInt();
+            String status = stationBeanList.get(i).getAsJsonObject().get("statusValue").getAsString();
+            double latitude = stationBeanList.get(i).getAsJsonObject().get("latitude").getAsDouble();
+            double longitude = stationBeanList.get(i).getAsJsonObject().get("longitude").getAsDouble();
+            stations.add(new Station(name, docks, bikes, status, latitude, longitude));
+        }
+        //System.out.println(stations.get(0).getLatitude());
     }
 
     private void fetchLocation() {
