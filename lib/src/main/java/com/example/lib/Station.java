@@ -19,10 +19,13 @@ public class Station implements Serializable {
         stationLatitude = setLatitude;
         stationLongitude = setLongitude;
     }
-    public void setDistance() {
-        double lon = stationLongitude - getLongitude();
-        double lat = stationLatitude - getLatitude();
+    public void setDistance(double Lo, double La) {
+        double lon = stationLongitude - Lo;
+        double lat = stationLatitude - La;
         distance = Math.sqrt((lon * lon) + (lat * lat));
+    }
+    public double getDistance() {
+        return distance;
     }
     /**
      * return the station's name.
