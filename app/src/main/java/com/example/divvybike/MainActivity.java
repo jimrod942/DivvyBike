@@ -52,6 +52,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -95,26 +96,34 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
-        /**
+        /*
          * UI connections and variable initializations.
          */
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
         ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
 
-        /**
+        /*
          * fetched location of user onClick for refresh button.
          */
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
-                fetchLocation();
-            }
+        refreshButton.setOnClickListener(v -> {
+            new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
+            fetchLocation();
         });
 
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (Exception e) {
+            System.out.println("oopsie");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
         for (int i = 0; i < stations.size(); i++) {
             TableRow row = new TableRow(this);
@@ -122,16 +131,13 @@ public class MainActivity extends AppCompatActivity {
             row.setLayoutParams(lp);
             Button stationButton = new Button(this);
 
-         // adjust this button width at a later date!
+            // adjust this button width at a later date!
             stationButton.setWidth(720);
             stationButton.setText(stations.get(i).getStationName());
 
-            stationButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent startNewActivity = new Intent(MainActivity.this, DetailActivity.class);
-                    MainActivity.this.startActivity(startNewActivity);
-                }
+            stationButton.setOnClickListener(v -> {
+                Intent startNewActivity = new Intent(MainActivity.this, DetailActivity.class);
+                MainActivity.this.startActivity(startNewActivity);
             });
 
             row.addView(stationButton);
@@ -144,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
      * @param jsonResult a string of the resultant json.
      */
     protected void finishProcessImage(final String jsonResult) {
-       // System.out.println("PROCESSING IMAGE");
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(jsonResult).getAsJsonObject();
         JsonArray stationBeanList = result.get("stationBeanList").getAsJsonArray();
@@ -157,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
             double longitude = stationBeanList.get(i).getAsJsonObject().get("longitude").getAsDouble();
             stations.add(new Station(name, docks, bikes, status, latitude, longitude));
         }
-        //System.out.println(stations.get(0).getLatitude());
     }
 
     private void fetchLocation() {
