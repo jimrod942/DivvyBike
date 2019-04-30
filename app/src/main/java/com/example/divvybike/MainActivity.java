@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -118,23 +119,26 @@ public class MainActivity extends AppCompatActivity {
             System.out.println();
         });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        /*
+         * Fills the table layout with the rows dynamically
+         */
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
 
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             TableRow row = new TableRow(this);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
             row.setLayoutParams(lp);
-            Button stationButton = new Button(this);
 
-            // adjust this button width at a later date!
-            stationButton.setWidth(BUTTON_WIDTH);
+            Button stationButton = new Button(this);
+            stationButton.setWidth(screenWidth);
+            stationButton.setHeight(140);
+            stationButton.setTransformationMethod(null);
             stationButton.setText(stations.get(i).getStationName());
+            stationButton.setTextSize(18);
 
             stationButton.setOnClickListener(v -> {
                 Intent startNewActivity = new Intent(MainActivity.this, DetailActivity.class);
@@ -143,7 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
             row.addView(stationButton);
             tableLayout.addView(row, i);
+            System.out.println(i);
         }
+
     }
 
     /**
