@@ -213,4 +213,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public double getCurrentLongitude() {
+        return currentLongitude;
+    }
+    public double getCurrentLatitude() {
+        return currentLatitude;
+    }
 }
