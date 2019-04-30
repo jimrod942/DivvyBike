@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,11 +15,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import android.content.Intent;
+import android.widget.TextView;
 
+import com.android.volley.toolbox.Volley;
 import com.example.lib.Station;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,11 +38,29 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Class for the Main Activity.
  */
 public class MainActivity extends AppCompatActivity {
+
+    private RequestQueue requestQueue;
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
@@ -56,31 +78,38 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean receivedLocation = false;
 
-    Button fetch;
     private FusedLocationProviderClient fusedLocationClient;
+
+    private List<Station> stations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //  pull data from API.
-        FetchData process = new FetchData();
-        process.execute();
+        requestQueue = Volley.newRequestQueue(this);
 
         // Requests location permissions.
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
+        /**
+         * UI connections and variable initializations.
+         */
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
         ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
+
+        /**
+         * fetched location of user onClick for refresh button.
+         */
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
                 fetchLocation();
             }
         });
@@ -107,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
             row.addView(stationButton);
             tableLayout.addView(row, i);
         }
+    }
+
+    /**
+     * function for parsing json.
+     * @param jsonResult a string of the resultant json.
+     */
+    protected void finishProcessImage(final String jsonResult) {
+        System.out.println(jsonResult);
     }
 
     private void fetchLocation() {
@@ -175,5 +212,11 @@ public class MainActivity extends AppCompatActivity {
                 //code to do instead
             }
         }
+    }
+    public double getCurrentLongitude() {
+        return currentLongitude;
+    }
+    public double getCurrentLatitude() {
+        return currentLatitude;
     }
 }
