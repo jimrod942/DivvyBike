@@ -66,8 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
+    private static final int NUMBER_OF_ROWS = 20;
+
+    private static final int BUTTON_WIDTH = 720;
+
     private double currentLongitude;
     private double currentLatitude;
+
     /**
      * Not exactly sure what this does.
      */
@@ -91,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
+        stations = (ArrayList<Station>) getIntent().getSerializableExtra("STATIONS");
+
         // Requests location permissions.
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -102,21 +109,15 @@ public class MainActivity extends AppCompatActivity {
         ImageButton refreshButton = (ImageButton) findViewById(R.id.refresh_button);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
-
         /*
          * fetched location of user onClick for refresh button.
          */
         refreshButton.setOnClickListener(v -> {
-            new Tasks.ProcessImageTask(MainActivity.this, requestQueue).execute();
+            new Tasks.GetJsonTaskOnRefresh(MainActivity.this, requestQueue).execute();
             fetchLocation();
+            System.out.println();
         });
 
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (Exception e) {
-            System.out.println("oopsie");
-        }
     }
 
     @Override
@@ -125,14 +126,14 @@ public class MainActivity extends AppCompatActivity {
 
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
-        for (int i = 0; i < stations.size(); i++) {
+        for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(lp);
             Button stationButton = new Button(this);
 
             // adjust this button width at a later date!
-            stationButton.setWidth(720);
+            stationButton.setWidth(BUTTON_WIDTH);
             stationButton.setText(stations.get(i).getStationName());
 
             stationButton.setOnClickListener(v -> {
@@ -149,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
      * function for parsing json.
      * @param jsonResult a string of the resultant json.
      */
-    protected void finishProcessImage(final String jsonResult) {
+    protected void finishGetJsonRefresh(final String jsonResult) {
+        stations.clear();
         JsonParser parser = new JsonParser();
         JsonObject result = parser.parse(jsonResult).getAsJsonObject();
         JsonArray stationBeanList = result.get("stationBeanList").getAsJsonArray();

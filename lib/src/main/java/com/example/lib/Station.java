@@ -1,7 +1,8 @@
 package com.example.lib;
 
+import java.io.Serializable;
 
-public class Station {
+public class Station implements Serializable {
     private String stationName;
     private int availableDocks;
     private int availableBikes;
