@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NUMBER_OF_ROWS = 20;
 
-    private static final int BUTTON_WIDTH = 720;
-
     private double currentLongitude;
     private double currentLatitude;
 
@@ -104,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
+        refreshTable();
+
         /*
          * UI connections and variable initializations.
          */
@@ -114,20 +114,20 @@ public class MainActivity extends AppCompatActivity {
          * fetched location of user onClick for refresh button.
          */
         refreshButton.setOnClickListener(v -> {
-            new Tasks.GetJsonTaskOnRefresh(MainActivity.this, requestQueue).execute();
             fetchLocation();
-            System.out.println();
+            new Tasks.GetJsonTaskOnRefresh(MainActivity.this, requestQueue).execute();
+            refreshTable();
         });
+    }
 
-        /*
-         * Fills the table layout with the rows dynamically
-         */
+    private void refreshTable() {
         TableLayout tableLayout = (TableLayout) findViewById(R.id.table_layout);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int screenWidth = displayMetrics.widthPixels;
 
+        tableLayout.removeAllViews();
         for (int i = 0; i < NUMBER_OF_ROWS; i++) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
@@ -147,9 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
             row.addView(stationButton);
             tableLayout.addView(row, i);
-            System.out.println(i);
         }
-
     }
 
     /**
