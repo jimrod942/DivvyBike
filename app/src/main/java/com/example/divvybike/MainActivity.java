@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < stations.size(); i++) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(lp);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
          // adjust this button width at a later date!
             stationButton.setWidth(720);
-            stationButton.setText("Example");
+            stationButton.setText(stations.get(i).getStationName());
 
             stationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
