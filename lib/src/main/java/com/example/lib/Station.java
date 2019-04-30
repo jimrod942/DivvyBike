@@ -23,6 +23,9 @@ public class Station {
         double lat = stationLatitude - getLatitude();
         distance = Math.sqrt((lon * lon) + (lat * lat));
     }
+    public double getDistance() {
+        return distance;
+    }
     /**
      * return the station's name.
      * @return station name

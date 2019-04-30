@@ -50,6 +50,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -161,7 +163,16 @@ public class MainActivity extends AppCompatActivity {
             double latitude = stationBeanList.get(i).getAsJsonObject().get("latitude").getAsDouble();
             double longitude = stationBeanList.get(i).getAsJsonObject().get("longitude").getAsDouble();
             stations.add(new Station(name, docks, bikes, status, latitude, longitude));
+            stations.get(i).setDistance();
         }
+        System.out.println(stations.get(0).getDistance());
+        Collections.sort(stations, new Comparator<Station>() {
+            @Override
+            public int compare(Station o1, Station o2) {
+                return (int) (o1.getDistance() - o2.getDistance());
+            }
+        });
+        System.out.println(stations.get(0).getDistance());
     }
 
     private void fetchLocation() {
