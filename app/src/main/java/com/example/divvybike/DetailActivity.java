@@ -38,8 +38,11 @@ public class DetailActivity extends AppCompatActivity {
         docksTextView.setText(Integer.toString(selectedStation.getAvailableDocks()));
 
         mapButton.setOnClickListener(v -> {
-            Uri gmmIntentUri = Uri.parse("geo:" + selectedStation.getLatitude() + "," + selectedStation.getLongitude()
-                    + "?q=" + Uri.encode(selectedStation.getStationName()));
+            Uri gmmIntentUri = Uri.parse("geo:" + selectedStation.getLatitude()
+                    + "," + selectedStation.getLongitude()
+                    + "?q=" + selectedStation.getLatitude()
+                    + "," + selectedStation.getLongitude()
+                    + "(" + selectedStation.getStationName() + ")");
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
