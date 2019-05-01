@@ -103,5 +103,13 @@
                 android:textSize="22sp"
                 android:text="Example" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="View On Maps"
+            android:textSize="20sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

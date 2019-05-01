@@ -2,6 +2,7 @@ package com.example.divvybike;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,8 +22,9 @@ public class DetailActivity extends AppCompatActivity {
         TextView statusTextView = (TextView) findViewById(R.id.status_text_view);
         TextView bikesTextView = (TextView) findViewById(R.id.bikes_text_view);
         TextView docksTextView = (TextView) findViewById(R.id.docks_text_view);
+        Button mapButton = (Button) findViewById(R.id.map_button);
 
-
+        mapButton.setTransformationMethod(null);
         stationTextView.setBackgroundColor(getResources().getColor(R.color.divvy_blue));
         detailLinearLayout.setBackgroundColor(getResources().getColor(R.color.divvy_dark));
 
@@ -32,5 +34,9 @@ public class DetailActivity extends AppCompatActivity {
         statusTextView.setText(selectedStation.getStatusValue());
         bikesTextView.setText(Integer.toString(selectedStation.getAvailableBikes()));
         docksTextView.setText(Integer.toString(selectedStation.getAvailableDocks()));
+
+        mapButton.setOnClickListener(v -> {
+            
+        });
     }
 }
