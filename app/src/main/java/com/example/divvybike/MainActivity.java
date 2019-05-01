@@ -48,6 +48,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -142,8 +143,10 @@ public class MainActivity extends AppCompatActivity {
             stationButton.setText(stations.get(i).getStationName());
             stationButton.setTextSize(18);
 
+            int finalI = i;
             stationButton.setOnClickListener(v -> {
                 Intent startNewActivity = new Intent(MainActivity.this, DetailActivity.class);
+                startNewActivity.putExtra("STATION", stations.get(finalI));
                 MainActivity.this.startActivity(startNewActivity);
             });
 
