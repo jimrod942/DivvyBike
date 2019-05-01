@@ -1,5 +1,7 @@
 package com.example.divvybike;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -36,7 +38,11 @@ public class DetailActivity extends AppCompatActivity {
         docksTextView.setText(Integer.toString(selectedStation.getAvailableDocks()));
 
         mapButton.setOnClickListener(v -> {
-            
+            Uri gmmIntentUri = Uri.parse("geo:" + selectedStation.getLatitude() + "," + selectedStation.getLongitude()
+                    + "?q=" + Uri.encode(selectedStation.getStationName()));
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
         });
     }
 }
